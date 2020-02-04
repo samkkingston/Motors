@@ -1,0 +1,46 @@
+#include <Servo.h>
+
+Servo myservo;  // CREATE SERVO OBJECT
+int pos = 0;    // STARTING SERVO REFERENCE POSITION
+
+
+
+void setup() {
+
+  // ESTABLISH DIGITAL PIN NUMBERS AND TYPES
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(3, INPUT);
+  myservo.attach(9);
+  pinMode(5, INPUT);
+
+}
+
+void loop() {
+
+  //SET BUTTON VALUE TO HIGH INITIALLY
+  digitalWrite(3, HIGH);
+
+  //IF BUTTON IS PRESSED, TURN ON THE DC MOTOR
+  if ( digitalRead(3) == HIGH) {
+    digitalWrite (11, HIGH);
+    digitalWrite (12, LOW);
+  }
+
+  //WHEN THE BUTTON IS PRESSED, MAKE THE SERVO PERFORM ONE ENTIRE SWEEP THEN FINISH.
+  else {
+    digitalWrite (11, LOW);
+    digitalWrite (12, LOW);
+
+    for (pos = 0; pos <= 180; pos += 1) {
+      // in steps of 1 degree
+      myservo.write(pos);
+      delay(15);
+    }
+    for (pos = 180; pos >= 0; pos -= 1) {
+      myservo.write(pos);
+      delay(15);
+    }
+
+  }
+}
